@@ -1,0 +1,310 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Mont Blanc\n"
+"POT-Creation-Date: 2014-08-25 00:49+0100\n"
+"PO-Revision-Date: 2014-08-25 00:50+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.5\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: 404.php:19 index.php:26
+msgid "404"
+msgstr ""
+
+#: 404.php:20 index.php:27
+msgid "Nothing's here."
+msgstr ""
+
+#: author.php:26
+msgid "This author hasn't added his/her bio."
+msgstr ""
+
+#: footer.php:25
+msgid "Back to top"
+msgstr ""
+
+#: framework/comment.php:4
+#, php-format
+msgid "%1$s"
+msgstr ""
+
+#: framework/comment.php:5
+msgid "(Edit)"
+msgstr ""
+
+#: framework/comment.php:9
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: framework/comments.php:16
+msgid "View Comments"
+msgstr ""
+
+#: framework/comments.php:16
+#, php-format
+msgid "1 Comment"
+msgid_plural "%1$s Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: framework/comments.php:25
+msgid "&larr; Older comments"
+msgstr ""
+
+#: framework/comments.php:28
+msgid "Newer comments &rarr;"
+msgstr ""
+
+#: framework/comments.php:36 framework/comments.php:45
+msgid "Comments are closed."
+msgstr ""
+
+#: framework/comments.php:52
+#, php-format
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
+msgstr ""
+
+#: framework/comments.php:61
+msgid "Submit Comment"
+msgstr ""
+
+#: framework/comments.php:63
+msgid "Comment"
+msgstr ""
+
+#: framework/comments.php:72
+msgid "Name"
+msgstr ""
+
+#: framework/comments.php:76
+msgid "Email (will not be published)"
+msgstr ""
+
+#: framework/comments.php:80
+msgid "Website"
+msgstr ""
+
+#: framework/general.php:19
+msgid "Primary Menu"
+msgstr ""
+
+#: framework/general.php:22
+msgid "Mobile menu"
+msgstr ""
+
+#: framework/general.php:62
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: framework/general.php:77
+msgid "Primary Sidebar"
+msgstr ""
+
+#: framework/general.php:79
+msgid "Main sidebar that appears on the right."
+msgstr ""
+
+#: framework/general.php:87
+msgid "Main Widget Area"
+msgstr ""
+
+#: framework/general.php:89
+msgid ""
+"Appears first in the footer section. This option will override the default "
+"widgets."
+msgstr ""
+
+#: framework/general.php:97
+msgid "Secondary Widget Area"
+msgstr ""
+
+#: framework/general.php:99
+msgid ""
+"Appears second in the footer section. This option will override the default "
+"widgets."
+msgstr ""
+
+#: framework/general.php:107
+msgid "Third Widget Area"
+msgstr ""
+
+#: framework/general.php:109
+msgid ""
+"Appears third in the footer section. This option will override the default "
+"widgets."
+msgstr ""
+
+#: framework/general.php:134
+msgid "Show Comments"
+msgstr ""
+
+#: framework/general.php:140
+msgid "Previous Post"
+msgstr ""
+
+#: framework/general.php:147
+msgid "Next Post"
+msgstr ""
+
+#: framework/general.php:158
+msgid "Author's profile"
+msgstr ""
+
+#: framework/general.php:175
+msgid "by"
+msgstr ""
+
+#: framework/general.php:188 framework/options.php:150
+msgid "Posted on"
+msgstr ""
+
+#: framework/general.php:206
+msgid "in"
+msgstr ""
+
+#: framework/general.php:206
+#, php-format
+msgid "View all posts in %s"
+msgstr ""
+
+#: framework/general.php:236
+msgid "Read More"
+msgstr ""
+
+#: framework/options.php:23
+msgid "Advanced Options"
+msgstr ""
+
+#: framework/options.php:36
+msgid "General"
+msgstr ""
+
+#: framework/options.php:43
+msgid "Header"
+msgstr ""
+
+#: framework/options.php:51
+msgid "Metadata Options"
+msgstr ""
+
+#: framework/options.php:58
+msgid "Colors"
+msgstr ""
+
+#: framework/options.php:65
+msgid "Sidebars"
+msgstr ""
+
+#: framework/options.php:72
+msgid "Menu"
+msgstr ""
+
+#: framework/options.php:79 framework/options.php:394
+msgid "Logo"
+msgstr ""
+
+#: framework/options.php:87
+msgid "Footer"
+msgstr ""
+
+#: framework/options.php:94
+msgid "Donations"
+msgstr ""
+
+#: framework/options.php:115
+msgid "Show categories"
+msgstr ""
+
+#: framework/options.php:132
+msgid "Show post author"
+msgstr ""
+
+#: framework/options.php:168
+msgid "Blog Title Color"
+msgstr ""
+
+#: framework/options.php:185
+msgid "Primary Color"
+msgstr ""
+
+#: framework/options.php:202
+msgid "Post Content"
+msgstr ""
+
+#: framework/options.php:225
+msgid "Header Color"
+msgstr ""
+
+#: framework/options.php:259
+msgid "Header Transperancy"
+msgstr ""
+
+#: framework/options.php:282
+msgid "Color Overlay"
+msgstr ""
+
+#: framework/options.php:305
+msgid "Sidebar on Frontpage"
+msgstr ""
+
+#: framework/options.php:328
+msgid "Show sidebar on pages"
+msgstr ""
+
+#: framework/options.php:352
+msgid "Show sidebar on single post pages"
+msgstr ""
+
+#: framework/options.php:375
+msgid "Display menu on single post pages"
+msgstr ""
+
+#: framework/options.php:412
+msgid "Footer Copyright"
+msgstr ""
+
+#: framework/options.php:429
+msgid "Widgets in sidebar"
+msgstr ""
+
+#: framework/options.php:452
+msgid "Hide donation notice"
+msgstr ""
+
+#: functions.php:16
+msgid ""
+"<p><b>Hi there!</b></p> If you like this theme please consider making a "
+"donation to its developer. This theme is free for all except for its creator "
+"as it involves some developing costs. Help me make this theme even better, "
+"all donations will only serve one purpose — improve this theme in many "
+"possible ways, such as adding features, adding options and improving the "
+"design.<p>Thanks for your support. Cheers!"
+msgstr ""
+
+#: functions.php:17
+msgid "<b>Ask for support:</b> @frenchtastic_eu or hello@frenchtastic.eu"
+msgstr ""
+
+#: header.php:90
+msgid "Toggle navigation"
+msgstr ""
+
+#: index.php:37
+msgid "Page"
+msgstr ""
+
+#: index.php:37
+msgid "of"
+msgstr ""

@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-09-01T07:28:25.769Z</updated>
+  <updated>2023-09-11T06:42:31.291Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,13 +17,78 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>月隐</title>
-    <link href="http://example.com/2023/09/01/9-2/"/>
-    <id>http://example.com/2023/09/01/9-2/</id>
-    <published>2023-09-01T07:28:04.900Z</published>
-    <updated>2023-09-01T07:28:25.769Z</updated>
+    <title></title>
+    <link href="http://example.com/2023/09/11/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB%E6%AD%A5%E9%AA%A4/"/>
+    <id>http://example.com/2023/09/11/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB%E6%AD%A5%E9%AA%A4/</id>
+    <published>2023-09-11T06:39:28.466Z</published>
+    <updated>2023-09-11T06:42:31.291Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<p>数据库迁移步骤</p><p>(1)对模型类做必要的修改。</p><p>(2)执行flask db migrate命令，自动创建一个迁移脚本。</p><p>(3)检查自动生成的脚本，根据对模型的实际改动进行调整。</p><p>(4)把迁移脚本纳入版本控制。</p><p>(5)执行flask db upgrade命令，把迁移应用到数据库中。</p><p><a href="https://flask-migrate.readthedocs.io/">https://flask-migrate.readthedocs.io/</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;数据库迁移步骤&lt;/p&gt;
+&lt;p&gt;(1)对模型类做必要的修改。&lt;/p&gt;
+&lt;p&gt;(2)执行flask db migrate命令，自动创建一个迁移脚本。&lt;/p&gt;
+&lt;p&gt;(3)检查自动生成的脚本，根据对模型的实际改动进行调整。&lt;/p&gt;
+&lt;p&gt;(4)把迁移脚本纳入版本控制。&lt;/p&gt;
+&lt;</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://example.com/2023/09/11/mongo-cli%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <id>http://example.com/2023/09/11/mongo-cli%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</id>
+    <published>2023-09-11T00:37:44.838Z</published>
+    <updated>2023-09-11T00:52:47.837Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="mongo-cli常用命令"><a href="#mongo-cli常用命令" class="headerlink" title="mongo-cli常用命令"></a>mongo-cli常用命令</h2><h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>show dbs</p><p>use  &lt;dbname&gt;</p><p>show collections</p><p>发票和备案 </p><p> db.users.find() # users是表名</p><ul><li><p>查询所有status为A或者D的文档</p><pre class="line-numbers language-python" data-language="python"><code class="language-python">db<span class="token punctuation">.</span>inventory<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'status'</span><span class="token punctuation">:</span><span class="token punctuation">&#123;</span><span class="token string">'$in'</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">"A"</span><span class="token punctuation">,</span><span class="token string">"D"</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li><li><p>查询集合中status等于A且qty小于30的所有文档</p><pre class="line-numbers language-python" data-language="python"><code class="language-python">db<span class="token punctuation">.</span>inventory<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'status'</span><span class="token punctuation">:</span><span class="token string">'A'</span><span class="token punctuation">,</span><span class="token string">'qty'</span><span class="token punctuation">:</span><span class="token punctuation">&#123;</span><span class="token string">'$lt'</span><span class="token punctuation">:</span><span class="token number">30</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li><li><p>查询集合inventory中status等于A或者qty小于30的所有文档</p><pre class="line-numbers language-python" data-language="python"><code class="language-python">db<span class="token punctuation">.</span>inventory<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'status'</span><span class="token punctuation">:</span><span class="token string">'A'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span><span class="token string">'qty'</span><span class="token punctuation">:</span><span class="token punctuation">&#123;</span><span class="token string">'$lt'</span><span class="token punctuation">:</span><span class="token number">30</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;mongo-cli常用命令&quot;&gt;&lt;a href=&quot;#mongo-cli常用命令&quot; class=&quot;headerlink&quot; title=&quot;mongo-cli常用命令&quot;&gt;&lt;/a&gt;mongo-cli常用命令&lt;/h2&gt;&lt;h2 id=&quot;查询&quot;&gt;&lt;a href=&quot;#查询&quot; cla</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://example.com/2023/09/11/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8CICP%E5%A4%87%E6%A1%88/"/>
+    <id>http://example.com/2023/09/11/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8CICP%E5%A4%87%E6%A1%88/</id>
+    <published>2023-09-11T00:27:31.327Z</published>
+    <updated>2023-09-11T00:29:53.034Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="域名准备"><a href="#域名准备" class="headerlink" title="域名准备"></a>域名准备</h2>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;域名准备&quot;&gt;&lt;a href=&quot;#域名准备&quot; class=&quot;headerlink&quot; title=&quot;域名准备&quot;&gt;&lt;/a&gt;域名准备&lt;/h2&gt;</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Flask-Moment</title>
+    <link href="http://example.com/2023/09/10/Flask-Moment/"/>
+    <id>http://example.com/2023/09/10/Flask-Moment/</id>
+    <published>2023-09-10T10:40:18.566Z</published>
+    <updated>2023-09-11T06:53:31.174Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems </p><h1 id="Flask-Moment"><a href="#Flask-Moment" class="headerlink" title="Flask-Moment"></a>Flask-Moment</h1><p>Flask-Moment实现了Moment.js的format()、fromNow()、fromTime()、calendar()、valueOf()和unix()等方法。</p><p>Moment.js的文档（<a href="http://momentjs.com/docs/#/displaying/%EF%BC%89">http://momentjs.com/docs/#/displaying/）</a></p><p>与其他多数扩展不同，Flask-WTF无须在应用层初始化，但是它要求应用配置一个<strong>密钥</strong></p>]]></content>
     
     
       
@@ -37,18 +102,151 @@
   </entry>
   
   <entry>
-    <title>枫丹白露的河畔</title>
-    <link href="http://example.com/2023/09/01/9-1/"/>
-    <id>http://example.com/2023/09/01/9-1/</id>
-    <published>2023-09-01T07:05:10.630Z</published>
-    <updated>2023-09-01T07:28:00.179Z</updated>
+    <title></title>
+    <link href="http://example.com/2023/09/10/flask%E8%AF%B7%E6%B1%82%E5%AF%B9%E8%B1%A1/"/>
+    <id>http://example.com/2023/09/10/flask%E8%AF%B7%E6%B1%82%E5%AF%B9%E8%B1%A1/</id>
+    <published>2023-09-10T03:29:27.618Z</published>
+    <updated>2023-09-10T03:29:30.727Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<p>flask请求对象</p><p><img src="C:\Users\chenn\AppData\Roaming\Typora\typora-user-images\image-20230910112921120.png" alt="image-20230910112921120"></p>]]></content>
     
     
       
       
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
+    <summary type="html">&lt;p&gt;flask请求对象&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;C:&#92;Users&#92;chenn&#92;AppData&#92;Roaming&#92;Typora&#92;typora-user-images&#92;image-20230910112921120.png&quot; alt=&quot;image-2023091011292</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://example.com/2023/09/09/%E5%A4%A7%E5%9E%8BFlask%E9%A1%B9%E7%9B%AE%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84/"/>
+    <id>http://example.com/2023/09/09/%E5%A4%A7%E5%9E%8BFlask%E9%A1%B9%E7%9B%AE%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84/</id>
+    <published>2023-09-09T11:14:05.822Z</published>
+    <updated>2023-09-09T11:32:53.180Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="C:\Users\chenn\AppData\Roaming\Typora\typora-user-images\image-20230909191307924.png" alt="image-20230909191307924"></p><p>Flask-SQLAlchemy</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;C:&#92;Users&#92;chenn&#92;AppData&#92;Roaming&#92;Typora&#92;typora-user-images&#92;image-20230909191307924.png&quot; alt=&quot;image-20230909191307924&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Fla</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://example.com/2023/09/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8E%9F%E7%90%86/"/>
+    <id>http://example.com/2023/09/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8E%9F%E7%90%86/</id>
+    <published>2023-09-08T05:18:26.993Z</published>
+    <updated>2023-09-08T05:18:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>文件上传原理</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;文件上传原理&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://example.com/2023/09/08/%E5%B7%A5%E4%BD%9C%E8%A6%81%E6%B1%82/"/>
+    <id>http://example.com/2023/09/08/%E5%B7%A5%E4%BD%9C%E8%A6%81%E6%B1%82/</id>
+    <published>2023-09-08T02:10:31.405Z</published>
+    <updated>2023-09-08T02:10:56.411Z</updated>
+    
+    <content type="html"><![CDATA[<p>工作要求</p><p>月薪20k以上</p><p>下班时间晚上6点之前</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;工作要求&lt;/p&gt;
+&lt;p&gt;月薪20k以上&lt;/p&gt;
+&lt;p&gt;下班时间晚上6点之前&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://example.com/2023/09/08/%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8+%E6%90%9C%E7%B4%A2/"/>
+    <id>http://example.com/2023/09/08/%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8+%E6%90%9C%E7%B4%A2/</id>
+    <published>2023-09-08T02:03:39.222Z</published>
+    <updated>2023-09-08T02:03:40.821Z</updated>
+    
+    <content type="html"><![CDATA[<p>文件服务器+搜索</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;文件服务器+搜索&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://example.com/2023/09/08/flask%E5%B8%B8%E7%94%A8%E6%89%A9%E5%B1%95/"/>
+    <id>http://example.com/2023/09/08/flask%E5%B8%B8%E7%94%A8%E6%89%A9%E5%B1%95/</id>
+    <published>2023-09-08T01:03:27.937Z</published>
+    <updated>2023-09-08T01:06:03.873Z</updated>
+    
+    <content type="html"><![CDATA[<p>Flask-Mail：发送与身份验证相关的电子邮件</p><p>Flask-Bootstrap：HTML模板</p><p>Flask-WTF：Web表单</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Flask-Mail：发送与身份验证相关的电子邮件&lt;/p&gt;
+&lt;p&gt;Flask-Bootstrap：HTML模板&lt;/p&gt;
+&lt;p&gt;Flask-WTF：Web表单&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Flask+Redis维护代理池</title>
+    <link href="http://example.com/2023/09/07/Flask+Redis%E7%BB%B4%E6%8A%A4%E4%BB%A3%E7%90%86%E6%B1%A0/"/>
+    <id>http://example.com/2023/09/07/Flask+Redis%E7%BB%B4%E6%8A%A4%E4%BB%A3%E7%90%86%E6%B1%A0/</id>
+    <published>2023-09-07T04:43:44.530Z</published>
+    <updated>2023-09-11T06:53:19.495Z</updated>
+    
+    <content type="html"><![CDATA[<p>池：本质上是队列</p><p>Redis：存储</p><p>Flask：提供web接口服务</p><h3 id="代理池的要求"><a href="#代理池的要求" class="headerlink" title="代理池的要求"></a>代理池的要求</h3><p>多站抓取，异步检测</p><p>定时筛选，持续更新</p><p>提供接口，易于提取</p><h4 id="代理池架构"><a href="#代理池架构" class="headerlink" title="代理池架构"></a>代理池架构</h4><p> 爬虫</p><p>  |</p><p>获取器–过滤器–代理队列–定时检测器</p><p>​  |</p><p>​ API</p><h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>Github: Germey&#x2F;ProxyPool</p><p>调度器</p><p>python多进程</p><p>from multiprocessing import process</p><p>async:python3.5</p><h1 id="18：31"><a href="#18：31" class="headerlink" title="18：31"></a>18：31</h1><p>现在的首要学习应该是Python多线程</p><p>{“ciphertext”:”%2BK4lIHYL%2BKp8lHUlxQxsmc63cwDto6KidFDLYTmREdp%2FIOGY8YJPLRPpWocqrljn93UDkr%2FXtMtJ2eVozu2%2Fyv46VGEjSIF4UNFJB4fW2ESqD1Zpll6EK0Gzo7FXYgIJlYCsiGeBd2GiPCzGeVBh1Np4U3KnMmKuAVxTT5V5E4Iuh%2FBCUgAlkGF88cUAEsNPh0Q7h3XSZUz26bfYr1WTTMKaY3QxEEsoudow1fpv%2Fxkhe1nT7dQ1AlPHs34dCOsNqkDgEjbl911nQFOGLiM2FivfsYTb0eTF2G0PSNmBHvqmKyPYAo7LhgtSYwQLk04C8ZaYRp0II2EUxykxCTvmL0ws2gJFhu0pDBw8SdrL5p8v7bFnN%2FFYQgkb8Bk0JkwjC1LUy7M668BxPZysaBXeZ7NiV7bjd3ANYdlXcWKOidBu%2Bv3che9E2H6Ex3p0UkPdVp9oAocw6ixqdZ8Qwg8ZUcLlCzXxe6D4jmtxdZmC5CR%2FbALKK6nn7K%2BTkujq%2BK5XvxKIuYBhHN%2FFMgAxsL6OQ%2BM6jMOGMYFHb32nFmp1j92JQR8Ywkjn%2FhcgVBygesuNQFMXYodZ9uNpOSjhaqAkmA%3D%3D”,”checkCode”:”16fb773454245ae07b88db963ce7ad52”}</p><p>+K4lIHYL+Kp8lHUlxQxsmc63cwDto6KidFDLYTmREdp&#x2F;IOGY8YJPLRPpWocqrljn93UDkr&#x2F;XtMtJ2eVozu2&#x2F;yv46VGEjSIF4UNFJB4fW2ESqD1Zpll6EK0Gzo7FXYgIJlYCsiGeBd2GiPCzGeVBh1Np4U3KnMmKuAVxTT5V5E4Iuh&#x2F;BCUgAlkGF88cUAEsNPh0Q7h3XSZUz26bfYr1WTTMKaY3QxEEsoudow1fpv&#x2F;xkhe1nT7dQ1AlPHs34dCOsNqkDgEjbl911nQFOGLiM2FivfsYTb0eTF2G0PSNmBHvqmKyPYAo7LhgtSYwQLk04C8ZaYRp0II2EUxykxCTvmL0ws2gJFhu0pDBw8SdrL5p8v7bFnN&#x2F;FYQgkb8Bk0JkwjC1LUy7M668BxPZysaBXeZ7NiV7bjd3ANYdlXcWKOidBu+v3che9E2H6Ex3p0UkPdVp9oAocw6ixqdZ8Qwg8ZUcLlCzXxe6D4jmtxdZmC5CR&#x2F;bALKK6nn7K+Tkujq+K5XvxKIuYBhHN&#x2F;FMgAxsL6OQ+M6jMOGMYFHb32nFmp1j92JQR8Ywkjn&#x2F;hcgVBygesuNQFMXYodZ9uNpOSjhaqAkmA&#x3D;&#x3D;</p><p>from urllib import parse</p><p>parse.unquote(code)</p><h1 id="19：10"><a href="#19：10" class="headerlink" title="19：10"></a>19：10</h1><p>算了…不把重点放在这上面了，去做建设性工作，少做批判性工作。</p><h1 id="21-39"><a href="#21-39" class="headerlink" title="21:39"></a>21:39</h1><p>原神16级，开放多人世界达成</p><p>google小恐龙游戏</p><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">|</span><span class="token operator">-</span>Plaza  <span class="token operator">|</span><span class="token operator">-</span>app<span class="token operator">/</span>    <span class="token operator">|</span><span class="token operator">-</span>templates<span class="token operator">/</span>    <span class="token operator">|</span><span class="token operator">-</span><span class="token keyword">static</span><span class="token operator">/</span>    <span class="token operator">|</span><span class="token operator">-</span>main<span class="token operator">/</span>      <span class="token operator">|</span><span class="token operator">-</span>__init__<span class="token punctuation">.</span>py      <span class="token operator">|</span><span class="token operator">-</span>errors<span class="token punctuation">.</span>py      <span class="token operator">|</span><span class="token operator">-</span>forms<span class="token punctuation">.</span>py      <span class="token operator">|</span><span class="token operator">-</span>views<span class="token punctuation">.</span>py    <span class="token operator">|</span><span class="token operator">-</span>__init__<span class="token punctuation">.</span>py    <span class="token operator">|</span><span class="token operator">-</span>email<span class="token punctuation">.</span>py    <span class="token operator">|</span><span class="token operator">-</span>models<span class="token punctuation">.</span>py  <span class="token operator">|</span><span class="token operator">-</span>migrations<span class="token operator">/</span>  <span class="token operator">|</span><span class="token operator">-</span>tests<span class="token operator">/</span>    <span class="token operator">|</span><span class="token operator">-</span>__init__<span class="token punctuation">.</span>py    <span class="token operator">|</span><span class="token operator">-</span>test<span class="token operator">*</span><span class="token punctuation">.</span>py  <span class="token operator">|</span><span class="token operator">-</span>venv<span class="token operator">/</span>  <span class="token operator">|</span><span class="token operator">-</span>requirements<span class="token punctuation">.</span>txt  <span class="token operator">|</span><span class="token operator">-</span>config<span class="token punctuation">.</span>py  <span class="token operator">|</span><span class="token operator">-</span>flasky<span class="token punctuation">.</span>py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><a href="https://flask-zh.readthedocs.io/api/#flask.g"><code>g</code></a> 是一个特殊的对象，它对每一个请求都是唯一的。</p><p><a href="https://flask-zh.readthedocs.io/api/#flask.current_app"><code>current_app</code></a> 是另一个特殊的对象，它<strong>指向</strong>处理请求的 Flask 应用。因为你使用了一个应用工厂，所以当写其他部分代码时没有应用对象。当应用被创建并且正在处理一个请求时，<code>get_db</code> 将会被调用，所以可以使用 <a href="https://flask-zh.readthedocs.io/api/#flask.current_app"><code>current_app</code></a>。</p><p>Flask应用一般保存在名为app的包中；</p><p>和之前一样，数据库迁移脚本在migrations文件夹中；</p><p>单元测试在tests包中编写；</p><p>和之前一样，Python虚拟环境在venv文件夹中。此外，这种结构还多了一些新文件：</p><p>requirements.txt列出了所有依赖包，便于在其他计算机中重新生成相同的虚拟环境；</p><p>config.py存储配置；</p><p>flasky.py定义Flask应用实例，同时还有一些辅助管理应用的任务。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;池：本质上是队列&lt;/p&gt;
+&lt;p&gt;Redis：存储&lt;/p&gt;
+&lt;p&gt;Flask：提供web接口服务&lt;/p&gt;
+&lt;h3 id=&quot;代理池的要求&quot;&gt;&lt;a href=&quot;#代理池的要求&quot; class=&quot;headerlink&quot; title=&quot;代理池的要求&quot;&gt;&lt;/a&gt;代理池的要求&lt;/h3&gt;&lt;p</summary>
       
     
     

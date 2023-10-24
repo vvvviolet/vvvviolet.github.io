@@ -1,0 +1,321 @@
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="renderer" content="webkit">
+	<link rel="icon" href="xyyy_1.png">
+	<title>移动端-校外预约审核结果</title>
+	<link rel="stylesheet" type="text/css" href="/src/lib/steps-master/steps.css">
+	<style type="text/css">
+		body {
+			background: #b71b30;
+			padding: 0px;
+			margin: 0px;
+		}
+
+		input::-webkit-input-placeholder,
+		textarea::-webkit-input-placeholder {
+			font-size: 12px;
+		}
+
+		input:-moz-placeholder,
+		textarea:-moz-placeholder {
+			font-size: 12px;
+		}
+
+		input::-moz-placeholder,
+		textarea::-moz-placeholder {
+			font-size: 12px;
+		}
+
+		input:-ms-input-placeholder,
+		textarea:-ms-input-placeholder {
+			font-size: 12px;
+		}
+
+		#bodyDiv {
+			background: #fff;
+			padding: 15px;
+			border-radius: 8px;
+			overflow: auto;
+			background-image: url(xyyy_2.png);
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		.inputsp {
+			width: 60%;
+			margin-top: 10px;
+			height: 35px;
+			border: 1px solid #999;
+			border-radius: 4px;
+			padding-left: 18px;
+			background: transparent;
+		}
+
+		.jieguoDiv {
+			border: 1px solid #c5c5c5;
+			border-radius: 6px;
+			padding: 8px;
+			font-size: 12px;
+			color: #999;
+			box-shadow: 0 8px 5px #97dffc;
+		}
+
+		.step-title {
+			font-size: 12px;
+		}
+
+		.infobutton {
+			border-radius: 4px;
+			background: #5accfa;
+			border: 0px;
+			color: #fff;
+			padding: 10px 18px;
+			margin-left: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div>
+		<div><img alt="" width="100%" src="xyyy_1.png"></div>
+		<div style="text-align: center;color: #fff;font-size: 18px;font-weight: bold;padding: 8px 0px;">
+			<span>上海理工大学临时出入审核报备审核结果</span>
+		</div>
+		<div style="padding: 5px 15px;">
+			<div id="bodyDiv">
+				<div style="text-align: center;color: #b71b30;font-size: 14px;font-weight: bold;">
+					<span>上海理工大学报备临时出入信息登记审核结果表</span>
+				</div>
+				<div style="font-size: 12px;color: #a5a5a5;padding-top: 8px;"><span>如有疑问请拨打：55276080或55273874咨询。</span>
+				</div>
+				<div style="font-size: 12px;padding-top: 8px;text-align: right;"><a
+						href="javascript:onClick();">返回报备登记</a></div>
+				<div style="text-align: center;">
+					<input class="inputsp" type="text" id="ocaUserNo" placeholder="请输入身份证查询审核结果">
+					<button class="infobutton" onclick="query()">查询</button>
+				</div>
+				<div id="content">
+
+				</div>
+				<!-- <div style="margin-top: 15px">
+				<div class="jieguoDiv">
+					<table>
+						<tr><td colspan="2">申请入校日期：2020-10-31</td></tr>
+						<tr><td colspan="2">申请离校时间：2020-10-31</td></tr>
+						<tr><td>进校方式：驾驶机动车入校</td><td>车牌号：津123456G</td></tr>
+						<tr><td colspan="2">审核进度：邀请人审核</td></tr>
+					</table>
+					<div id="steps1"></div>
+				</div>
+			</div> -->
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript" src="/src/lib/js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="/src/lib/steps-master/steps.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script type="text/javascript">
+	const { createClient } = supabase
+	const _supabase = createClient('https://cmyawtiqbhxbmzuzbcap.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNteWF3dGlxYmh4Ym16dXpiY2FwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTgwNDk3MTksImV4cCI6MjAxMzYyNTcxOX0.XjcwHTPCDCE8NijF0wqVQdrfJqvwY-TVlbvEIxD5bd8')
+
+
+	$(function () {
+		var i = document.documentElement.clientHeight;
+		$('#bodyDiv').height(i - 235);
+		/* var steps1 = steps({
+			el: "#steps1",
+			data: [
+				{ title: "邀请人审核", description: ""},
+				{ title: "部门领导审核", description: "", sides: "start-single" },
+				{ title: "完成", description: "" }
+			],
+			sides: "two-sides",
+			active: 1
+		}); */
+	})
+	function onClick(id) {
+		window.location.href = "/";
+	}
+
+	function stepsIndex(index, value) {
+		var ocaStatus = value.oca_Status;
+		var ocaAuditorStatus = value.oca_Auditor_Status;
+		steps({
+			el: "#steps" + index,
+			data: [
+				{ title: "邀请人审核", description: "", sides: "start-single", icon: '<i class="fa ' + (ocaStatus == 1 ? "fa-check" : ocaStatus == 2 ? "fa-times" : "fa-circle") + '" aria-hidden="true" ></i>' },
+				{ title: "部门领导审核", description: "", sides: "start-single", icon: '<i class="fa ' + (ocaAuditorStatus == 1 ? "fa-check" : ocaAuditorStatus == 2 ? "fa-times" : "fa-circle") + '" aria-hidden="true" ></i>' },
+				{ title: "完成", description: "" }
+			],
+			sides: "two-sides",
+			active: ((ocaStatus == null || ocaStatus == 0 || ocaStatus == 2) ? 0 : (ocaAuditorStatus == null || ocaAuditorStatus == 0 || ocaAuditorStatus == 2) ? 1 : 2)
+		});
+	}
+	async function query() {
+		var ocaUserNo = $("#ocaUserNo").val();
+		if (ocaUserNo == "") {
+			return false;
+		}
+
+		const { data, error } = await _supabase
+			.from('yuyue')
+			.select('*')
+			.eq('ocaUserNo', ocaUserNo)
+			// 123456789098765432
+		// console.log(data[data.length - 1])
+		var resData = {
+			apply: {
+				id : 2,
+				ocaCheckerType : "临时前往",
+				ocaUserName : "姓名",
+				ocaUserSex : "女",
+				ocaUserNo : "123456789098765432",
+				ocaStartDate : 1698118812946,
+				ocaEndDate : 1698119812946,
+				ocaSubjectMatter : "管理学院",
+				ocaPlaceOfAdmission : "580门岗",
+				ocaUserWay : "步行前往",
+				ocaLicensePlate : "F243",
+				departmentName:'管理学院',
+				piName:'韦航'
+			},
+			data: data[data.length - 1]
+		}
+		console.log(resData)
+		$.each(eval(data), function (index, value) {
+			// console.log('Supabase Instance: ', _supabase)
+
+			var ocaStatus = value.ocaStatus;
+			var ocaAuditorStatus = value.ocaAuditorStatus;
+			// console.log(index, value)
+			var msg = "";
+			if (ocaStatus == null || ocaStatus == 0) {
+				msg = "邀请人未审核";
+			} else if (ocaStatus == 2) {
+				msg = "邀请人审核未通过";
+			} else if (ocaAuditorStatus == null || ocaAuditorStatus == 0) {
+				msg = "部门领导未审核";
+			} else if (ocaAuditorStatus == 2) {
+				msg = "部门领导审核未通过";
+			} else if (ocaAuditorStatus == 1) {
+				msg = "完成";
+			}
+			$("#content").append("<div style=\"margin-top: 15px\">\r\n" +
+				"				<div class=\"jieguoDiv\">\r\n" +
+				"					<table>\r\n" +
+				"						<tr><td colspan=\"2\" style=\"font-size: initial;font-weight: bold;color: black;\">姓名：" + (value.ocaUserName == null ? "" : value.ocaUserName) + "</td></tr>\r\n" +
+				"						<tr><td colspan=\"2\" style=\"font-size: initial;font-weight: bold;color: black;\">身份证号：" + (value.ocaUserNo == null ? "" : value.ocaUserNo) + "</td></tr>\r\n" +
+				"						<tr><td colspan=\"2\" style=\"font-size: initial;font-weight: bold;color: black;\">预约类型：" + (value.ocaCheckerType == 1 ? "临时进校" : "合作单位") + "</td></tr>\r\n" +
+				"						<tr><td  style=\"font-size: 12px;color: #999;\"  colspan=\"2\">申请入校日期：" + (new Date(Number(value.ocaStartDate)).format("yyyy-MM-dd hh:mm:ss")) + "</td></tr>\r\n" +
+				"						<tr><td style=\"font-size: 12px;color: #999;\"  colspan=\"2\">申请离校时间：" + (new Date(Number(value.ocaEndDate)).format("yyyy-MM-dd hh:mm:ss")) + "</td></tr>\r\n" +
+				"						<tr><td style=\"font-size: 12px;color: #999;\"  colspan=\"2\">入校地点：" + (value.ocaPlaceOfAdmission == null ? "" : value.ocaPlaceOfAdmission) + "</td></tr>\r\n" +
+				(value.ocaUserWay == "驱车前往" ? "<tr><td>进校方式：驱车前往</td><td>车牌号：" + (value.ocaLicensePlate) + "</td></tr>\r\n" : "") +
+				(value.ocaUserWay == "步行前往" ? "<tr><td colspan=\"2\">进校方式：徒步前往</td></tr>\r\n" : "") +
+				"						<tr><td colspan=\"2\" style=\"font-size: initial;font-weight: bold;color: black;\">邀请人：" + (value.piName == null ? "" : value.piName) + "</td></tr>\r\n" +
+				"						<tr><td colspan=\"2\" style=\"font-size: initial;font-weight: bold;color: black;\">邀请人部门：" + (value.departmentName == null ? "" : value.departmentName) + "</td></tr>\r\n" +
+
+				"						<tr><td style=\"font-size: 12px;color: #999;\"  colspan=\"2\">审核进度：" + msg + "</td></tr>\r\n" +
+				"					</table>\r\n" +
+				"					<div id=\"steps" + index + "\"></div>\r\n" +
+				"				</div>\r\n" +
+				"			</div>");
+			stepsIndex(index, value);
+		})
+	}
+
+	async function sendData(data) {
+
+	}
+	function query1() {
+		var ocaUserNo = $("#ocaUserNo").val();
+		if (ocaUserNo == "") {
+			return false;
+		}
+		$("#content").html("");
+
+
+		$.ajax({
+			// url: "http://localhost:8000/api/queryOffCampusAppointment",
+			url: "http://localhost:8000",
+			// url: "https://cmyawtiqbhxbmzuzbcap.supabase.co/rest/v1/",
+			data: { "ocaUserNo": ocaUserNo },
+			type: "POST",
+			dataType: 'json', // 用于设置响应体的类型
+
+			success: function (obj) {
+				$.each(eval(obj), function (index, value) {
+					// console.log('Supabase Instance: ', _supabase)
+
+					var ocaStatus = value.oca_Status;
+					var ocaAuditorStatus = value.oca_Auditor_Status;
+					// console.log(index, value)
+					var msg = "";
+					if (ocaStatus == null || ocaStatus == 0) {
+						msg = "邀请人未审核";
+					} else if (ocaStatus == 2) {
+						msg = "邀请人审核未通过";
+					} else if (ocaAuditorStatus == null || ocaAuditorStatus == 0) {
+						msg = "部门领导未审核";
+					} else if (ocaAuditorStatus == 2) {
+						msg = "部门领导审核未通过";
+					} else if (ocaAuditorStatus == 1) {
+						msg = "完成";
+					}
+					$("#content").append("<div style=\"margin-top: 15px\">\r\n" +
+						"				<div class=\"jieguoDiv\">\r\n" +
+						"					<table>\r\n" +
+						"						<tr><td colspan=\"2\" style=\"font-size: initial;font-weight: bold;color: black;\">姓名：" + (value.oca_User_Name == null ? "" : value.oca_User_Name) + "</td></tr>\r\n" +
+						"						<tr><td colspan=\"2\" style=\"font-size: initial;font-weight: bold;color: black;\">身份证号：" + (value.oca_UserNo == null ? "" : value.oca_UserNo) + "</td></tr>\r\n" +
+						"						<tr><td colspan=\"2\" style=\"font-size: initial;font-weight: bold;color: black;\">预约类型：" + (value.ocaCheckerType == 1 ? "临时进校" : "合作单位") + "</td></tr>\r\n" +
+						"						<tr><td  style=\"font-size: 12px;color: #999;\"  colspan=\"2\">申请入校日期：" + (new Date(value.oca_Start_Date).format("yyyy-MM-dd hh:mm:ss")) + "</td></tr>\r\n" +
+						"						<tr><td style=\"font-size: 12px;color: #999;\"  colspan=\"2\">申请离校时间：" + (new Date(value.oca_End_Date).format("yyyy-MM-dd hh:mm:ss")) + "</td></tr>\r\n" +
+						"						<tr><td style=\"font-size: 12px;color: #999;\"  colspan=\"2\">入校地点：" + (value.oca_Place_Of_Admission == null ? "" : value.oca_Place_Of_Admission) + "</td></tr>\r\n" +
+						(value.oca_UserWay == "驱车前往" ? "<tr><td>进校方式：驱车前往</td><td>车牌号：" + (value.oca_License_Plate) + "</td></tr>\r\n" : "") +
+						(value.oca_UserWay == "步行前往" ? "<tr><td colspan=\"2\">进校方式：徒步前往</td></tr>\r\n" : "") +
+						"						<tr><td colspan=\"2\" style=\"font-size: initial;font-weight: bold;color: black;\">邀请人：" + (value.pi_Name == null ? "" : value.pi_Name) + "</td></tr>\r\n" +
+						"						<tr><td colspan=\"2\" style=\"font-size: initial;font-weight: bold;color: black;\">邀请人部门：" + (value.Department_Name == null ? "" : value.Department_Name) + "</td></tr>\r\n" +
+
+						"						<tr><td style=\"font-size: 12px;color: #999;\"  colspan=\"2\">审核进度：" + msg + "</td></tr>\r\n" +
+						"					</table>\r\n" +
+						"					<div id=\"steps" + index + "\"></div>\r\n" +
+						"				</div>\r\n" +
+						"			</div>");
+					stepsIndex(index, value);
+				})
+
+			},
+			error: function () {
+				alert("操作异常，请联系管理员");
+			}
+		})
+	}
+	Date.prototype.format = function (fmt) {
+		var o = {
+			"M+": this.getMonth() + 1, //月份
+			"d+": this.getDate(), //日
+			"h+": this.getHours(), //小时
+			"m+": this.getMinutes(), //分
+			"s+": this.getSeconds(), //秒
+			"q+": Math.floor((this.getMonth() + 3) / 3), //季度
+			"S": this.getMilliseconds() //毫秒
+		};
+		if (/(y+)/.test(fmt)) {
+			fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+		}
+		for (var k in o) {
+			if (new RegExp("(" + k + ")").test(fmt)) {
+				fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			}
+		}
+		return fmt;
+	}
+
+
+</script>
+
+</html>

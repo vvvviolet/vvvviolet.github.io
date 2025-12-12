@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>建筑逐层展示 | GitHub Pages</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+            min-height: 300vh;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        .github-link {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .github-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .scroll-indicator i {
+            font-size: 12px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-5px); }
+            60% { transform: translateY(-3px); }
+        }
+
+        .reveal-wrapper {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .building-container {
+            position: relative;
+            width: 95%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #building-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+            clip-path: inset(100% 0 0 0);
+            transition: clip-path 0.05s linear;
+        }
+
+        .image-placeholder {
+            display: none;
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(180deg, #2c5364 0%, #203a43 100%);
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .floor-counter {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            font-size: 3rem;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.7);
+            z-index: 10;
+            font-family: 'Courier New', monospace;
+        }
+
+        .floor-label {
+            position: fixed;
+            bottom: 145px;
+            right: 20px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            position: fixed;
+            bottom: 55px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            z-index: 11;
+            white-space: nowrap;
+        }
+
+        .completion-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 30px 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .completion-message.show {
+            opacity: 1;
+        }
+
+        .instructions {
+            position: fixed;
+            bottom: 200px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            max-width: 250px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
+        }
+
+        .instructions h3 {
+            margin-bottom: 8px;
+            color: #00c6ff;
+        }
+
+        .instructions p {
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .floor-counter {
+                font-size: 2.5rem;
+                bottom: 90px;
+                right: 15px;
+            }
+            
+            .floor-label {
+                bottom: 130px;
+                right: 15px;
+            }
+            
+            .instructions {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .building-container {
+                max-width: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="https://github.com" target="_blank" class="github-link" id="githubLink">
+        <i class="fab fa-github"></i> GitHub
+    </a>
+
+    <div class="scroll-indicator">
+        <i class="fas fa-chevron-up"></i>
+        <span>向上滑动显示楼层</span>
+    </div>
+
+    <div class="reveal-wrapper">
+        <div class="building-container">
+            <!-- 替换building.png为您自己的建筑图片 -->
+            <img id="building-image" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=1200&fit=crop" alt="建筑逐层展示" onerror="showPlaceholder()">
+            <div class="image-placeholder" id="placeholder">
+                <div>
+                    <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                    <h3>建筑图片未找到</h3>
+                    <p>请将您的建筑图片URL替换到代码中，或使用本地图片并命名为 building.png</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="floor-counter" id="floorCounter">00</div>
+    <div class="floor-label">楼层</div>
+
+    <div class="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+    <div class="progress-text" id="progressText">0% 已加载</div>
+
+    <div class="completion-message" id="completionMessage">
+        <i class="fas fa-flag-checkered"></i><br>
+        建筑完全展现！
+    </div>
+
+    <div class="instructions">
+        <h3>GitHub 在线开发指南</h3>
+        <p>1. 登录 GitHub，创建新仓库</p>
+        <p>2. 点击 "Add file" → "Create new file"</p>
+        <p>3. 文件名输入 <strong>index.html</strong></p>
+        <p>4. 复制粘贴此代码并提交</p>
+        <p>5. 前往 Settings → Pages 启用</p>
+    </div>
+
+    <!-- 滚动占位内容 -->
+    <div style="height: 300vh;"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buildingImage = document.getElementById('building-image');
+            const placeholder = document.getElementById('placeholder');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progressText');
+            const floorCounter = document.getElementById('floorCounter');
+            const completionMessage = document.getElementById('completionMessage');
+            const githubLink = document.getElementById('githubLink');
+            
+            // 动态设置GitHub链接为当前页面（如果是GitHub Pages）
+            if (window.location.hostname.includes('github.io')) {
+                const repoName = window.location.pathname.split('/')[1] || 'building-reveal';
+                const githubUser = window.location.hostname.split('.')[0];
+                githubLink.href = `https://github.com/${githubUser}/${repoName}`;
+                githubLink.innerHTML = '<i class="fab fa-github"></i> 查看仓库';
+            }
+            
+            let imageLoaded = false;
+            let totalScrollRange = 2500;
+            let maxFloors = 88;
+            
+            // 显示占位符（如果图片加载失败）
+            window.showPlaceholder = function() {
+                buildingImage.style.display = 'none';
+                placeholder.style.display = 'flex';
+                initBuildingReveal(true);
+            };
+            
+            // 加载图片并初始化
+            if (buildingImage.complete) {
+                initBuildingReveal();
+            } else {
+                buildingImage.onload = function() {
+                    placeholder.style.display = 'none';
+                    buildingImage.style.display = 'block';
+                    initBuildingReveal();
+                };
+                buildingImage.onerror = showPlaceholder;
+                
+                // 设置超时，如果图片加载太慢
+                setTimeout(function() {
+                    if (!imageLoaded) {
+                        showPlaceholder();
+                    }
+                }, 3000);
+            }
+            
+            function initBuildingReveal(useMockData = false) {
+                imageLoaded = true;
+                
+                if (!useMockData && buildingImage.naturalHeight) {
+                    const imgHeight = buildingImage.naturalHeight;
+                    totalScrollRange = Math.max(2000, imgHeight * 2.8);
+                    maxFloors = Math.min(99, Math.floor(imgHeight / 15));
+                }
+                
+                // 更新页面高度
+                document.querySelector('div[style]').style.height = totalScrollRange + 'px';
+                
+                // 初始状态：只显示最底部1%
+                buildingImage.style.clipPath = 'inset(99% 0 0 0)';
+                
+                // 监听滚动事件
+                window.addEventListener('scroll', handleScroll);
+                // 初始更新
+                handleScroll();
+            }
+            
+            function handleScroll() {
+                if (!imageLoaded) return;
+                
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollProgress = Math.min(scrollTop / totalScrollRange, 1);
+                const easedProgress = easeInOutCubic(scrollProgress);
+                
+                // 计算裁剪区域
+                const clipTop = 99 - (easedProgress * 99);
+                buildingImage.style.clipPath = `inset(${clipTop}% 0 0 0)`;
+                
+                // 更新进度条
+                const progressPercent = Math.round(scrollProgress * 100);
+                progressBar.style.width = `${progressPercent}%`;
+                progressText.textContent = `${progressPercent}% 已加载`;
+                
+                // 更新楼层计数器
+                const currentFloor = Math.floor(easedProgress * maxFloors);
+                floorCounter.textContent = currentFloor.toString().padStart(2, '0');
+                
+                // 显示完成消息
+                if (scrollProgress >= 0.995) {
+                    completionMessage.classList.add('show');
+                } else {
+                    completionMessage.classList.remove('show');
+                }
+            }
+            
+            // 缓动函数，使滚动更平滑
+            function easeInOutCubic(t) {
+                return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            }
+            
+            // 响应窗口大小变化
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(handleScroll, 100);
+            });
+            
+            // 初始化滚动位置
+            window.scrollTo(0, 0);
+            
+            // 添加键盘支持（空格/方向键）
+            window.addEventListener('keydown', function(e) {
+                if (e.code === 'Space' || e.code === 'ArrowDown' || e.code === 'ArrowUp') {
+                    e.preventDefault();
+                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                    const scrollAmount = window.innerHeight * 0.8;
+                    
+                    if (e.code === 'ArrowDown' || e.code === 'Space') {
+                        window.scrollTo({ top: currentScroll + scrollAmount, behavior: 'smooth' });
+                    } else if (e.code === 'ArrowUp') {
+                        window.scrollTo({ top: Math.max(0, currentScroll - scrollAmount), behavior: 'smooth' });
+                    }
+                }
+            });
+            
+            // 添加触摸滑动支持（移动设备）
+            let touchStartY = 0;
+            window.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            window.addEventListener('touchend', function(e) {
+                const touchEndY = e.changedTouches[0].clientY;
+                const diff = touchStartY - touchEndY;
+                
+                // 如果向上滑动超过50px，滚动一屏
+                if (diff > 50) {
+                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                    window.scrollTo({ top: currentScroll + window.innerHeight * 0.8, behavior: 'smooth' });
+                }
+                // 如果向下滑动超过50px，向上滚动一屏
+                else if (diff < -50) {
+                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                    window.scrollTo({ top: Math.max(0, currentScroll - window.innerHeight * 0.8), behavior: 'smooth' });
+                }
+            }, { passive: true });
+        });
+    </script>
+</body>
+</html>

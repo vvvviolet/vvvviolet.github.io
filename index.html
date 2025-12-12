@@ -21,7 +21,31 @@
     <!-- floors 将由 script.js 动态生成 -->
   </main>
 
+  <!-- 画廊模态框 -->
+  <div id="galleryModal" class="gallery-modal" aria-hidden="true" role="dialog" aria-label="楼层插画画廊">
+    <div class="gallery-backdrop" data-action="close"></div>
+    <div class="gallery-panel" role="document">
+      <header class="gallery-header">
+        <h3 id="galleryTitle">画廊</h3>
+        <button id="galleryClose" class="gallery-close" aria-label="关闭画廊">&times;</button>
+      </header>
+      <main class="gallery-body">
+        <div id="galleryMain" class="gallery-main">
+          <!-- 大图显示区域 -->
+          <img id="galleryLarge" src="" alt="" />
+        </div>
+        <div id="galleryGrid" class="gallery-grid" aria-live="polite">
+          <!-- 缩略图网格 -->
+        </div>
+      </main>
+      <footer class="gallery-footer">
+        <small id="galleryInfo"></small>
+      </footer>
+    </div>
+  </div>
 
+  <!-- 可选：一个轻量的浮动说明 -->
+  <aside class="hint">向上滑动加载更高层 · 点击任意楼层打开该层的插画</aside>
 
   <script src="script.js"></script>
 </body>

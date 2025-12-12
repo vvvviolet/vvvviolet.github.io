@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>建筑逐层展示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(to bottom, #1a2980, #26d0ce);
+            min-height: 300vh;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .scroll-indicator i {
+            font-size: 12px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-5px); }
+            60% { transform: translateY(-3px); }
+        }
+
+        .reveal-wrapper {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .building-container {
+            position: relative;
+            width: 90%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        #building-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+            clip-path: inset(100% 0 0 0);
+            transition: clip-path 0.05s linear;
+        }
+
+        .floor-counter {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .floor-label {
+            position: fixed;
+            bottom: 140px;
+            right: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            z-index: 10;
+        }
+
+        .ground-line {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+            z-index: 5;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #ff8a00, #e52e71);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .completion-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            pointer-events: none;
+        }
+
+        .completion-message.show {
+            opacity: 1;
+        }
+
+        .debug-info {
+            position: fixed;
+            top: 60px;
+            left: 20px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 10px;
+            border-radius: 5px;
+            z-index: 100;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .building-container {
+                max-width: 400px;
+            }
+            
+            .floor-counter {
+                font-size: 3rem;
+                right: 40px;
+                bottom: 120px;
+            }
+            
+            .floor-label {
+                right: 40px;
+                bottom: 160px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="scroll-indicator">
+        <i class="fas fa-chevron-up"></i>
+        <span>向上滑动显示楼层</span>
+    </div>
+
+    <div class="debug-info" id="debugInfo"></div>
+
+    <div class="reveal-wrapper">
+        <div class="building-container">
+            <!-- 请替换src为您的建筑图片路径 -->
+            <img id="building-image" src="your-building-image.png" alt="建筑楼层">
+        </div>
+    </div>
+
+    <div class="ground-line"></div>
+
+    <div class="floor-counter" id="floorCounter">00</div>
+    <div class="floor-label">楼层</div>
+
+    <div class="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <div class="completion-message" id="completionMessage">
+        <i class="fas fa-flag-checkered"></i><br>
+        建筑完全展现！
+    </div>
+
+    <!-- 滚动占位内容，提供滚动空间 -->
+    <div style="height: 250vh;"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buildingImage = document.getElementById('building-image');
+            const progressBar = document.getElementById('progress-bar');
+            const floorCounter = document.getElementById('floorCounter');
+            const completionMessage = document.getElementById('completionMessage');
+            const debugInfo = document.getElementById('debugInfo');
+            
+            let imageLoaded = false;
+            let totalScrollRange = 2000; // 默认滚动范围
+            let maxFloors = 100; // 最大楼层数
+            
+            // 加载图片并初始化
+            if (buildingImage.complete) {
+                initBuildingReveal();
+            } else {
+                buildingImage.onload = initBuildingReveal;
+                buildingImage.onerror = function() {
+                    console.error('图片加载失败，请检查路径');
+                    buildingImage.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjgwMCIgdmlld0JveD0iMCAwIDMwMCA4MDAiIGZpbGw9IiMzMzMiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzIyMjIyMiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiPkJ1aWxkaW5nIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
+                    initBuildingReveal();
+                };
+            }
+            
+            function initBuildingReveal() {
+                imageLoaded = true;
+                
+                // 根据图片高度调整滚动范围（每100像素高度对应500px滚动范围）
+                const imgHeight = buildingImage.naturalHeight || 800;
+                totalScrollRange = Math.max(1500, imgHeight * 3);
+                maxFloors = Math.min(99, Math.floor(imgHeight / 10));
+                
+                // 更新页面高度以提供足够的滚动空间
+                document.querySelector('div[style]').style.height = totalScrollRange + 'px';
+                
+                // 初始状态：只显示最底部1%
+                buildingImage.style.clipPath = 'inset(99% 0 0 0)';
+                
+                // 监听滚动事件
+                window.addEventListener('scroll', handleScroll);
+                // 初始更新一次
+                handleScroll();
+                
+                // 调试信息（可选）
+                if (window.location.hash === '#debug') {
+                    debugInfo.style.display = 'block';
+                }
+            }
+            
+            function handleScroll() {
+                if (!imageLoaded) return;
+                
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollProgress = Math.min(scrollTop / totalScrollRange, 1);
+                
+                // 计算裁剪区域：从99%逐渐减少到0%
+                const clipTop = 99 - (scrollProgress * 99);
+                buildingImage.style.clipPath = `inset(${clipTop}% 0 0 0)`;
+                
+                // 更新进度条
+                progressBar.style.width = `${scrollProgress * 100}%`;
+                
+                // 更新楼层计数器
+                const currentFloor = Math.floor(scrollProgress * maxFloors);
+                floorCounter.textContent = currentFloor.toString().padStart(2, '0');
+                
+                // 显示完成消息
+                if (scrollProgress >= 0.99) {
+                    completionMessage.classList.add('show');
+                } else {
+                    completionMessage.classList.remove('show');
+                }
+                
+                // 调试信息
+                debugInfo.innerHTML = `
+                    滚动: ${Math.round(scrollTop)}px<br>
+                    进度: ${(scrollProgress * 100).toFixed(1)}%<br>
+                    裁剪: ${clipTop.toFixed(1)}%<br>
+                    楼层: ${currentFloor}
+                `;
+            }
+            
+            // 处理窗口大小变化
+            window.addEventListener('resize', function() {
+                // 简单的防抖处理
+                clearTimeout(this.resizeTimer);
+                this.resizeTimer = setTimeout(handleScroll, 100);
+            });
+            
+            // 初始化滚动到最底部（起点）
+            window.scrollTo(0, 0);
+        });
+    </script>
+</body>
+</html>

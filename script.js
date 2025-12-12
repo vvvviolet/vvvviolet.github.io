@@ -1,128 +1,50 @@
-// script.js
-// 已配置为 10 层：第一层使用 assets/floors/1.png（你提供的 1.png）
-// 其他层使用 assets/floors/2.png 作为占位图（共 9 层占位）
-// 请把图片放到仓库：assets/floors/1.png 与 assets/floors/2.png
-// 或将 URL 替换为你自己的外链路径
+// script.js — 已调整：默认由 CSS 按图片比例计算高度（width * 880/1184）
+// 若需要单层自定义高度，请把该层的 height 字段设为具体值（如 "480px" 或 "60vh"）
 
 const floors = [
-  {
-    id: "floor-1",
-    title: "一楼 · 院子",
-    type: "courtyard",
-    height: "65vh",
-    bgImage: "assets/floors/1.png",
-    placeholder: "assets/floors/2.png"
-  },
-  {
-    id: "floor-2",
-    title: "二楼",
-    type: "floor",
-    height: "480px",
-    bgImage: "assets/floors/2.png",
-    placeholder: "assets/floors/2.png"
-  },
-  {
-    id: "floor-3",
-    title: "三楼",
-    type: "floor",
-    height: "560px",
-    bgImage: "assets/floors/2.png",
-    placeholder: "assets/floors/2.png"
-  },
-  {
-    id: "floor-4",
-    title: "四楼",
-    type: "floor",
-    height: "55vh",
-    bgImage: "assets/floors/2.png",
-    placeholder: "assets/floors/2.png"
-  },
-  {
-    id: "floor-5",
-    title: "五楼",
-    type: "floor",
-    height: "620px",
-    bgImage: "assets/floors/2.png",
-    placeholder: "assets/floors/2.png"
-  },
-  {
-    id: "floor-6",
-    title: "六楼",
-    type: "floor",
-    height: "500px",
-    bgImage: "assets/floors/2.png",
-    placeholder: "assets/floors/2.png"
-  },
-  {
-    id: "floor-7",
-    title: "七楼",
-    type: "floor",
-    height: "auto",
-    bgImage: "assets/floors/2.png",
-    placeholder: "assets/floors/2.png"
-  },
-  {
-    id: "floor-8",
-    title: "八楼",
-    type: "floor",
-    height: "540px",
-    bgImage: "assets/floors/2.png",
-    placeholder: "assets/floors/2.png"
-  },
-  {
-    id: "floor-9",
-    title: "九楼",
-    type: "floor",
-    height: "480px",
-    bgImage: "assets/floors/2.png",
-    placeholder: "assets/floors/2.png"
-  },
-  {
-    id: "floor-10",
-    title: "十楼",
-    type: "floor",
-    height: "55vh",
-    bgImage: "assets/floors/2.png",
-    placeholder: "assets/floors/2.png"
-  }
+  { id: "floor-1", title: "", type: "courtyard", height: "auto", bgImage: "assets/floors/1.png", placeholder: "assets/floors/2.png" },
+  { id: "floor-2", title: "", type: "floor", height: "auto", bgImage: "assets/floors/2.png", placeholder: "assets/floors/2.png" },
+  { id: "floor-3", title: "", type: "floor", height: "auto", bgImage: "assets/floors/2.png", placeholder: "assets/floors/2.png" },
+  { id: "floor-4", title: "", type: "floor", height: "auto", bgImage: "assets/floors/2.png", placeholder: "assets/floors/2.png" },
+  { id: "floor-5", title: "", type: "floor", height: "auto", bgImage: "assets/floors/2.png", placeholder: "assets/floors/2.png" },
+  { id: "floor-6", title: "", type: "floor", height: "auto", bgImage: "assets/floors/2.png", placeholder: "assets/floors/2.png" },
+  { id: "floor-7", title: "", type: "floor", height: "auto", bgImage: "assets/floors/2.png", placeholder: "assets/floors/2.png" },
+  { id: "floor-8", title: "", type: "floor", height: "auto", bgImage: "assets/floors/2.png", placeholder: "assets/floors/2.png" },
+  { id: "floor-9", title: "", type: "floor", height: "auto", bgImage: "assets/floors/2.png", placeholder: "assets/floors/2.png" },
+  { id: "floor-10", title: "", type: "floor", height: "auto", bgImage: "assets/floors/2.png", placeholder: "assets/floors/2.png" }
 ];
 
-// ---------- 其余逻辑与之前模板一致 ----------
-
-// DOM references
+// DOM refs
 const building = document.getElementById("building");
 const entrance = document.getElementById("entrance");
 const enterBtn = document.getElementById("enterBtn");
 
-// 创建单层 DOM
 function createFloorNode(f) {
   const node = document.createElement("section");
   node.className = "floor";
   if (f.type === "courtyard") node.classList.add("courtyard");
   node.id = f.id;
 
-  // 设置高度
+  // 如果用户明确设置了非 "auto" 高度（如 "480px" 或 "55vh"），优先使用它覆盖 CSS 默认
   if (f.height && f.height !== "auto") {
     node.style.minHeight = f.height;
     node.style.height = f.height;
   } else {
+    // 由 CSS 的 aspect-ratio / calc 控制高度：不写入 inline height
     node.style.height = "auto";
   }
 
-  // 背景层（懒加载背景图）
   const bg = document.createElement("div");
   bg.className = "floor-bg";
   if (f.bgImage) bg.dataset.bg = f.bgImage;
   if (f.placeholder) bg.style.backgroundImage = `url('${f.placeholder}')`;
 
-  // 内容层
   const content = document.createElement("div");
   content.className = "floor-content";
   content.innerHTML = `<h2>${escapeHtml(f.title || "")}</h2>`;
 
   node.appendChild(bg);
   node.appendChild(content);
-
   return node;
 }
 
@@ -141,27 +63,17 @@ function escapeHtml(str) {
 function renderFloors(list) {
   building.innerHTML = "";
   const fragment = document.createDocumentFragment();
-  list.forEach(f => {
-    const node = createFloorNode(f);
-    fragment.appendChild(node);
-  });
+  list.forEach(f => fragment.appendChild(createFloorNode(f)));
   building.appendChild(fragment);
 }
 
-// 懒加载逻辑
-const observerOptions = {
-  root: null,
-  rootMargin: "300px 0px 300px 0px",
-  threshold: 0.01
-};
-
+const observerOptions = { root: null, rootMargin: "300px 0px 300px 0px", threshold: 0.01 };
 const lazyObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
     const floorEl = entry.target;
     const bgEl = floorEl.querySelector(".floor-bg");
     if (!bgEl) return;
-
     const imgUrl = bgEl.dataset.bg;
     if (imgUrl) {
       const img = new Image();
@@ -178,23 +90,19 @@ const lazyObserver = new IntersectionObserver((entries) => {
     } else {
       floorEl.classList.add("loaded");
     }
-
     lazyObserver.unobserve(floorEl);
   });
 }, observerOptions);
 
 function observeFloors() {
-  const floorEls = building.querySelectorAll(".floor");
-  floorEls.forEach(el => {
-    lazyObserver.observe(el);
-  });
+  document.querySelectorAll(".floor").forEach(el => lazyObserver.observe(el));
 }
 
 enterBtn.addEventListener("click", () => {
   entrance.style.display = "none";
   requestAnimationFrame(() => {
     const first = document.querySelector(".floor");
-    if (first) first.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (first) first.scrollIntoView({ behavior: "smooth", block: "end" });
   });
 });
 
@@ -205,27 +113,32 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+function getCurrentFloorIndex() {
+  const floorsEls = Array.from(document.querySelectorAll(".floor"));
+  if (!floorsEls.length) return -1;
+  const viewportCenter = window.innerHeight / 2;
+  let index = floorsEls.findIndex(el => el.getBoundingClientRect().bottom >= viewportCenter);
+  if (index === -1) index = floorsEls.length - 1;
+  return index;
+}
+
 function navigateByKey(key) {
   const floorsEls = Array.from(document.querySelectorAll(".floor"));
   if (!floorsEls.length) return;
-  const viewportTop = window.scrollY;
-  let index = floorsEls.findIndex(el => el.getBoundingClientRect().top + window.scrollY >= viewportTop + 10);
-  if (index === -1) index = floorsEls.length - 1;
+  let index = getCurrentFloorIndex();
+  if (index === -1) index = 0;
 
-  if (key === "ArrowDown" || key === "PageDown") {
+  if (key === "ArrowUp" || key === "PageUp") {
     const next = floorsEls[Math.min(index + 1, floorsEls.length - 1)];
-    next && next.scrollIntoView({ behavior: "smooth", block: "start" });
+    next && next.scrollIntoView({ behavior: "smooth", block: "end" });
   } else {
     const prev = floorsEls[Math.max(index - 1, 0)];
-    prev && prev.scrollIntoView({ behavior: "smooth", block: "start" });
+    prev && prev.scrollIntoView({ behavior: "smooth", block: "end" });
   }
 }
 
 window.setFloors = function(newFloors) {
-  if (!Array.isArray(newFloors)) {
-    console.error("setFloors 参数需为数组");
-    return;
-  }
+  if (!Array.isArray(newFloors)) { console.error("setFloors 参数需为数组"); return; }
   window._userFloors = newFloors;
 };
 

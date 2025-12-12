@@ -3,33 +3,130 @@
 html,body { height: 100%; }
 body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: #111;
   color: #fff;
-  overflow-y: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-overflow-scrolling: touch;
+
+  /* 背景透明，真正的天空背景由 ::before 提供，便于动画与层级控制 */
+  background: transparent;
+  position: relative;
+  min-height: 100vh;
 }
 
-/* 入口遮罩（进入前显示） */
+/* 可调变量 */
+:root {
+  --floor-width: 360px; /* 每层固定宽度 */
+  --max-site-width: 900px;
+  --img-aspect-ratio: 0.7446629213483146; /* 880/1184 */
+  --sky-top: #87CEFF;      /* 天空上部色 */
+  --sky-mid: #a7d8ff;      /* 天空中部色（用于渐变） */
+  --sky-bottom: #f6fbff;   /* 天空接近地平线更浅 */
+  --cloud-color: rgba(255,255,255,0.95);
+  --cloud-soft: rgba(255,255,255,0.85);
+  --cloud-opacity: 0.9;
+  --cloud-speed: 60s;      /* 云层动画周期（可调） */
+}
+
+/* 天空背景：使用 body::before 放到最底层 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -999; /* 最底层 */
+  pointer-events: none;
+
+  /* 多层背景：
+     - 最下层为线性渐变（蓝天 -> 淡蓝 -> 接近地平线的非常浅色）
+     - 上面叠加若干径向渐变模拟云块（位置、大小、透明度可调整）
+     - 使用较大的 background-size 与 background-position 动画实现慢速移动云层的效果
+  */
+  background-image:
+    /* 远云层（大、非常柔和）*/
+    radial-gradient(closest-side at 10% 20%, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.00) 45%),
+    radial-gradient(closest-side at 80% 25%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.00) 45%),
+
+    /* 近云层（更明显）*/
+    radial-gradient(closest-side at 40% 50%, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.00) 60%),
+    radial-gradient(closest-side at 70% 60%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.00) 60%),
+    radial-gradient(closest-side at 20% 65%, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.00) 60%),
+
+    /* 线性渐变作为底色（从上到下）*/
+    linear-gradient(to bottom, var(--sky-top) 0%, var(--sky-mid) 55%, var(--sky-bottom) 100%);
+  
+  /* 不同图层使用不同尺寸与初始位置，便于动画 */
+  background-size:
+    140% 90%,
+    160% 80%,
+    120% 60%,
+    110% 50%,
+    100% 50%,
+    100% 100%;
+
+  background-position:
+    0% 0%,
+    100% 10%,
+    10% 20%,
+    80% 30%,
+    25% 60%,
+    50% 50%;
+
+  transition: background 400ms linear;
+  /* 使用动画来平移云层（只改变背景位置） */
+  animation: cloudShift var(--cloud-speed) linear infinite;
+}
+
+/* 云层缓慢移动（opposite directions by varying percentages） */
+@keyframes cloudShift {
+  0% {
+    background-position:
+      0% 0%,
+      100% 10%,
+      10% 20%,
+      80% 30%,
+      25% 60%,
+      50% 50%;
+  }
+  50% {
+    background-position:
+      10% 0%,
+      90% 10%,
+      0% 20%,
+      70% 30%,
+      35% 60%,
+      50% 50%;
+  }
+  100% {
+    background-position:
+      0% 0%,
+      100% 10%,
+      10% 20%,
+      80% 30%,
+      25% 60%,
+      50% 50%;
+  }
+}
+
+/* 入口遮罩（进入前显示）——保持不变但配合新背景色调微调 */
 .entrance {
   position: fixed;
   inset: 0;
   display:flex;
   align-items:center;
   justify-content:center;
-  background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0.85));
+  background: linear-gradient(180deg, rgba(3,6,18,0.65), rgba(3,6,18,0.8));
   z-index: 30;
 }
 .entrance-inner {
   text-align:center;
-  padding: 28px;
+  padding: 26px;
   border-radius: 12px;
   background: rgba(255,255,255,0.02);
   backdrop-filter: blur(6px);
   box-shadow: 0 8px 30px rgba(0,0,0,0.6);
 }
-.entrance h1 { font-size: 28px; margin-bottom: 8px; }
-.entrance p { color: #bbb; margin-bottom: 16px; }
+.entrance h1 { font-size: 22px; margin-bottom: 8px; }
+.entrance p { color: #eee; margin-bottom: 14px; font-size: 14px; }
 .enter-btn {
   background: linear-gradient(90deg,#4f9cff,#8a6cff);
   border: none;
@@ -40,70 +137,91 @@ body {
   font-weight: 600;
 }
 
-/* 大楼容器为垂直堆叠的层 */
+/* 大楼容器：column-reverse（从下往上），减少层间间隙以更紧凑展示 */
 .building {
   width: 100%;
-  max-width: 900px;
+  max-width: var(--max-site-width);
   margin: 0 auto;
-  padding-bottom: 200px;
+  padding: 24px 0 160px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 8px; /* 缩小层间距离（从原来的 24px -> 8px） */
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 }
 
-/* 每一层的通用样式 */
+/* 每层固定宽度；高度由 aspect-ratio / calc 控制以匹配图片比例 */
 .floor {
   position: relative;
-  width: 100%;
-  margin: 0 auto 24px;
+  width: var(--floor-width);
+  max-width: var(--floor-width);
+  margin: 0; /* 去除多余外边距，间隔由 building gap 控制 */
   overflow: hidden;
-  border-radius: 8px;
-  background: #222;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.002);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
+  scroll-snap-align: end;
+  /* box-shadow: 0 6px 20px rgba(10,15,25,0.45); */
+
+  /* 采用图片长宽比（现代浏览器） */
+  aspect-ratio: 1184 / 880;
+  height: calc(var(--floor-width) * var(--img-aspect-ratio));
 }
 
-/* 可用背景图作为层的大背景（优先） */
+/* 背景图层（懒加载后显示） */
 .floor .floor-bg {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
-  filter: brightness(.95);
+  filter: saturate(1.02) contrast(1.02) brightness(.98);
   transform-origin: center;
-  transition: transform 0.7s ease, opacity 0.5s ease;
+  transition: transform 0.5s ease, opacity 0.35s ease;
   opacity: 0;
 }
 .floor.loaded .floor-bg { opacity: 1; transform: scale(1); }
 
-/* 层内部内容（文字/装饰/前景图） */
+/* 层内部内容 */
 .floor .floor-content {
   position: relative;
   z-index: 2;
-  padding: 20px;
+  padding: 12px;
   text-align: center;
   width: 100%;
+  pointer-events: auto;
+  color: #0b2136; /* 与浅天空背景对比，更适合浅背景图片上的文字（可根据需要调整） */
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
 }
 
-/* 院子样式可单独定制 */
-.floor.courtyard { box-shadow: 0 12px 60px rgba(0,0,0,0.7); }
-.floor.courtyard .floor-content { padding: 40px; }
+/* 院子样式（底层突出） */
+.floor.courtyard { box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+.floor.courtyard .floor-content { padding: 20px; }
 
-/* 提示的浮动小组件 */
+/* 浮动提示 */
 .hint {
   position: fixed;
-  right: 18px;
-  bottom: 18px;
-  background: rgba(0,0,0,0.5);
+  right: 12px;
+  bottom: 12px;
+  background: rgba(0,0,0,0.38);
   padding: 8px 12px;
   border-radius: 999px;
   font-size: 13px;
   z-index: 40;
-  color: #ddd;
+  color: #f1f6fb;
 }
 
-/* 响应式 */
-@media (max-width: 700px) {
-  .building { padding: 0 12px 160px; }
-  .entrance-inner { width: calc(100% - 32px); }
+/* 响应式：桌面宽度稍放宽（高度随比例自动调整） */
+@media (min-width: 700px) {
+  :root { --floor-width: 420px; }
+  .entrance h1 { font-size: 28px; }
+}
+
+/* 小屏幕微调：减少阴影与边框半径以节省空间 */
+@media (max-width: 360px) {
+  :root { --floor-width: calc(100vw - 28px); } /* 在超窄屏上稍留边距 */
+  .floor { border-radius: 8px; box-shadow: 0 4px 12px rgba(10,15,25,0.35); }
 }
